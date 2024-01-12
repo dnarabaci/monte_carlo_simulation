@@ -175,6 +175,7 @@ BeeSim$drawBeetles <- function () {
 
 BeeSim$iter <- function (sd=1,sight=2,debug=TRUE) {
   self=BeeSim
+  
   ## * move randomly every beetle within the grid
   ##   - sight x and y: mean=2,sd=1
   ##   - create vector of x and y changes
@@ -223,8 +224,39 @@ BeeSim$iter <- function (sd=1,sight=2,debug=TRUE) {
   ## * Update Beetles:
   ##   - update age for all beetles: age = age +1
   self$beetles$age=self$beetles$age+1
+  
+  
+  # more points cost however more energy per iteration
+  # below some example settings:
+  # with 4 points energy loss in one iteration will be always 1
+  # with 5 points energy loss in one iteration will be in 10% of the cases 2
+  # with 6 points energy loss in one iteration will be in 20% of the cases 2
+  # with 7 points energy loss in one iteration will be in 30% of the cases 2
+  
+  
+  
   ##   - update energy for all beetles: energy = energy - 1
-  self$beetles$energy=self$beetles$energy-1
+  #self$beetles$energy=self$beetles$energy-1
+  idx=which(self$beetles$points==4)
+  self$beetles$energy[idx] = self$beetles$energy[idx]-1
+  #self$beetles$sight[idx] = self$beetles$energy[idx]*0.8
+  
+  
+  idx=which(self$beetles$points==5)
+  self$beetles$energy[idx] = self$beetles$energy[idx]-c(1,2)[rbinom(1,1,p=c(0.1,0.9))+1]
+  #self$beetles$sight[idx] = self$beetles$energy[idx]*0.8
+  
+  idx=which(self$beetles$points==6)
+  self$beetles$energy[idx] = self$beetles$energy[idx]-c(1,2)[rbinom(1,1,p=c(0.2,0.8))+1]
+  #self$beetles$sight[idx] = self$beetles$energy[idx]0.8
+  
+  
+  idx=which(self$beetles$points==7)
+  self$beetles$energy[idx] = self$beetles$energy[idx]-c(1,2)[rbinom(1,1,p=c(0.3,0.7))+1]
+  #self$beetles$sight[idx] = self$beetles$energy[idx]0.8
+  
+  
+  
   ##   - check energy if < 0 remove beetle from data frame
   idx=which(self$beetles$energy>=0)
   if (length(idx)<nrow(self$beetles)) {
@@ -233,6 +265,12 @@ BeeSim$iter <- function (sd=1,sight=2,debug=TRUE) {
     }
     self$beetles=self$beetles[idx,]
   }
+  
+  
+  #self$beetles$sight = self$beetles$energy #duygu
+
+
+  
   ## Update food:
   ## remove all items where D==100 or lower than 99
   # remove eaten food
