@@ -1,0 +1,97 @@
+---
+title: "Monte Carlo Simulation"
+author: 
+- name: Ayrin Sophie Piephoh
+  affiliation: Department of Bioinformatics, University of Potsdam, Germany
+- name: Duygu Nur Arabaci
+  affiliation: Department of Bioinformatics, University of Potsdam, Germany
+- name: Fatoumata Sow
+  affiliation: Department of Bioinformatics, University of Potsdam, Germany
+- name: Mekontso Tepeu Florentin Jose
+  affiliation: Department of Bioinformatics, University of Potsdam, Germany
+- name: Stevie?
+  affiliation: Department of Bioinformatics, University of Potsdam, Germany
+
+bibliography: [packages.bib]
+nocite: '@*'
+
+output:
+  bookdown::html_document2:
+    theme: yeti
+    toc: true
+    toc_depth: 2
+  number_sections: TRUE
+  fig_caption: TRUE
+
+
+---
+```{r include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message = FALSE, tidy = TRUE)
+```
+
+```{r, echo=FALSE}
+# Packages
+packages <- c("knitr")
+
+# Install packages not yet installed
+installed_packages <- packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
+
+source("beesim.R")
+
+#Create citations for packages used
+knitr::write_bib(c(.packages(), packages), "packages.bib")
+```
+
+-------------------------------------------------------------
+
+**Abstract**
+
+-------------------------------------------------------------
+
+<div id="abstract">
+</div>
+<br>
+
+# Introduction
+
+# Data and Methods
+
+# Statistical Analysis
+
+# Results
+
+
+Example run
+
+```{r fig=TRUE,fig.width=16,fig.height=9}
+set.seed(123)
+par(mfrow=c(2,3),mai=c(0.2,0.2,0.7,0.1))
+BeeSim$new(20)   # create 20 agents
+BeeSim$drawBeetles()
+BeeSim$iter()
+for (i in 1:5) { BeeSim$iter() }
+BeeSim$drawBeetles()
+for (i in 1:10) { BeeSim$iter() ; BeeSim$mating()}
+
+BeeSim$drawBeetles()
+for (i in 1:35) { BeeSim$iter(debug=FALSE) ; BeeSim$mating(debug=FALSE)}
+BeeSim$drawBeetles()
+for (i in 1:35) { BeeSim$iter(debug=FALSE) ; BeeSim$mating(debug=FALSE)}
+BeeSim$drawBeetles()
+BeeSim$plotMonitor()
+```
+```{r}
+
+```
+
+# Discussion
+
+
+# Bibliography
+
