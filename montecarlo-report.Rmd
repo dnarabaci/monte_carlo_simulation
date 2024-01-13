@@ -9,7 +9,7 @@ author:
   affiliation: Department of Bioinformatics, University of Potsdam, Germany
 - name: Mekontso Tepeu Florentin Jose
   affiliation: Department of Bioinformatics, University of Potsdam, Germany
-- name: Stevie?
+- name: Stevie Davies
   affiliation: Department of Bioinformatics, University of Potsdam, Germany
 
 bibliography: [packages.bib]
@@ -69,7 +69,7 @@ knitr::write_bib(c(.packages(), packages), "packages.bib")
 
 Example run
 
-```{r fig=TRUE,fig.width=16,fig.height=9}
+```{r fig=TRUE,fig.width=16,fig.height=9, fig.cap="Beetle Simulations"}
 set.seed(123)
 par(mfrow=c(2,3),mai=c(0.2,0.2,0.7,0.1))
 BeeSim$new(20)   # create 20 agents
