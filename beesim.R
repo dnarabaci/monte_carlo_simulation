@@ -62,7 +62,7 @@ BeeSim$new <- function (n) {
   self$food=data.frame(x=c(rnorm(10,mean=12,sd=5),rnorm(20,mean=42,sd=5),runif(20,0,50)),
                        y=c(rnorm(10,mean=12,sd=5),rnorm(20,mean=42,sd=5),runif(20,0,50)),
                        age=rep(0,50))
-  self$monitor=data.frame(iter=0,beetles=nrow(self$beetles),food=nrow(self$food))
+  self$monitor=data.frame(iter=0,beetles=nrow(self$beetles),food=nrow(self$food), points=mean(self$beetles$points)*100) #duygu
 }
 ### Draw an individual beetle of the beetles data frame 
 ### Private Function
@@ -157,7 +157,7 @@ BeeSim$drawBeetles <- function () {
     self$.drawBeetle(i)
   }
   idx=nrow(self$monitor)
-  title(sprintf("iter: %i beetles: %i food items: %i",self$monitor$iter[idx],self$monitor$beetles[idx],self$monitor$food[idx]))
+  title(sprintf("iter: %i beetles: %i food items: %i",self$monitor$iter[idx],self$monitor$beetles[idx],self$monitor$food[idx],self$monitor$points[idx])) #duygu
 }
 
 #' ## BeeSim$iter() - perform an iteration
@@ -303,7 +303,7 @@ BeeSim$iter <- function (sd=1,sight=2,debug=TRUE) {
     self$food=self$food[idx,]
   }
   idx=nrow(self$monitor)
-  self$monitor=rbind(self$monitor,data.frame(iter=self$monitor$iter[idx]+1,beetles=nrow(self$beetles),food=nrow(self$food)))
+  self$monitor=rbind(self$monitor,data.frame(iter=self$monitor$iter[idx]+1,beetles=nrow(self$beetles),food=nrow(self$food), points=mean(self$beetles$points)*100)) #duygu
   ### Mating: Might be placed in own function
   ### let girls look for boys if energy > 10 and age > 10
   ### check if male is in sight (D<5 for instance)
@@ -385,6 +385,7 @@ BeeSim$plotMonitor <- function () {
   plot(self$monitor$food ~ self$monitor$iter,col="grey60",type="l",ylim=c(0,max(self$monitor$food)),ylab="Counts",xlab="Iterations",main="Model Monitoring",lwd=3)
   grid()
   points(self$monitor$beetles ~ self$monitor$iter,col="blue",type="l",lwd=3)
+  points(self$monitor$points ~ self$monitor$iter,col="red",type="l",lwd=3) #duygu
   
 }
 
