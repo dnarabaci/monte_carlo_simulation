@@ -210,9 +210,10 @@ BeeSim$iter <- function (sd=1,sight=2,debug=TRUE) {
   for (i in 1:n) {
     ## food distances
     f=D[i,(n+1):ncol(D)]
-    if (any(f<sight)) {
+    sight = self$beetles$points[i]/2 #duygu
+    if (any(f<sight)) { #duygu
       ## update energy=energy+2
-      idx=sample(which(f<2),1)
+      idx=sample(which(f<sight),1)
       #print(paste(i,"is eating",idx))
       ## remove food from grid
       ## place a value of 100 to D for this food item
