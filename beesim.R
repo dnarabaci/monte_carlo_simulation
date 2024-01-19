@@ -336,30 +336,32 @@ BeeSim$mating <- function (sight=4,min.female=10,min.male=5,min.age=10,childs=5,
   if (length(candidate.female)>0) {
     D=as.matrix(dist(rbind(BeeSim$beetles[,1:2])))
     for (f in candidate.female) {
+      sight = self$beetles$points[f] - 1 # the sight variable should be depending on the number of points
       if (any(D[f,]<sight)) {
         for (b in which(D[f,]<sight)) {
           if (b == f) {
             next
           }
           if (self$beetles$sex[b] == "M" &  self$beetles$energy[b]>min.male & self$beetles$age[b]>min.age) {
-            if (debug) {
-              print(paste(f,"mates prosperous",b)) 
-            }
-            # newborns data
-            x=runif(childs,min=min(self$beetles[c(f,b),'x']), max=min(self$beetles[c(f,b),'x']))
-            y=runif(childs,min=min(self$beetles[c(f,b),'y']), max=min(self$beetles[c(f,b),'y']))
-            sex=sample(c("M","F"),childs,replace=TRUE)
-            color=sample(self$beetles$color[c(f,b)],childs,replace=TRUE)
-            points=sample(self$beetles$points[c(f,b)],childs,replace=TRUE)
-            if (class(childs.df)=="NULL") {
-              childs.df=data.frame(x=x,y=y,sex=sex,color=color,points=points,age=0,energy=1)
-            } else {
-              childs.df=rbind(childs.df,data.frame(x=x,y=y,sex=sex,color=color,points=points,age=0,energy=1))
-            }
-            # reduce energy for mating pair, females invest more, most of the energy comes from females
-            self$beetles[f,'energy']=self$beetles[f,'energy']-(childs-1)
-            self$beetles[b,'energy']=self$beetles[b,'energy']-1
-            break
+	    if (sample(c(TRUE, FALSE), 1, prob = c(self$beetles$points[b]/7, 1 - (self$beetles$points[b]/7)))) {
+              if (debug) {
+                print(paste(f,"mates prosperous",b)) 
+              }
+              # newborns data
+              x=runif(childs,min=min(self$beetles[c(f,b),'x']), max=min(self$beetles[c(f,b),'x']))
+              y=runif(childs,min=min(self$beetles[c(f,b),'y']), max=min(self$beetles[c(f,b),'y']))
+              sex=sample(c("M","F"),childs,replace=TRUE)
+              color=sample(self$beetles$color[c(f,b)],childs,replace=TRUE)
+              points=sample(self$beetles$points[c(f,b)],childs,replace=TRUE)
+              if (class(childs.df)=="NULL") {
+                childs.df=data.frame(x=x,y=y,sex=sex,color=color,points=points,age=0,energy=1)
+              } else {
+                childs.df=rbind(childs.df,data.frame(x=x,y=y,sex=sex,color=color,points=points,age=0,energy=1))
+              }
+              # reduce energy for mating pair, females invest more, most of the energy comes from females
+              self$beetles[f,'energy']=self$beetles[f,'energy']-(childs-1)
+              self$beetles[b,'energy']=self$beetles[b,'energy']-1
+              break
           }
         }
       }
