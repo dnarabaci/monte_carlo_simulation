@@ -1,5 +1,21 @@
 # SBI Montecarlo
 
+## Current status:
+ __Point size genetics:__
+- the sight variable is points-1 for mating, points/2 for food (we should equalize this probably)
+- more points cost more enery per iteration
+    - with 4 points, energy loss in one iteration will be always 1
+    - with 5 points, energy loss in one iteration will be in 10% of the cases 2
+    - with 6 points, energy loss in one iteration will be in 20% of the cases 2
+    - with 7 points, energy loss in one iteration will be in 30% of the cases 2
+- females favor males with more points probably of chosing a male should be based on the number of points (what's the preference?)
+    - males with 7 points should have a higher chance of being selected, but 4 point males should be not without chance
+- monitor the average point count as well in the monitor plot
+    - monitor graph has a line for average point count*100 for visibility
+
+not implemented
+#'    - explore two settings, one which favors fewer points, one which favors more points
+#'    - but both point groups should at least survive 25 iterations
 
 
 ## Getting started
