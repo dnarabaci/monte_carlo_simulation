@@ -13,7 +13,7 @@
 - monitor the average point count as well in the monitor plot
     - monitor graph has a line for average point count*100 for visibility
 
-not implemented
+- not implemented
     - explore two settings, one which favors fewer points, one which favors more points
     - both point groups should at least survive 25 iterations
 
