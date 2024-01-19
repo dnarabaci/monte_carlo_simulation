@@ -366,7 +366,7 @@ BeeSim$mating <- function (sight=4,min.female=10,min.male=5,min.age=10,childs=5,
         }
       }
     }
-  }
+  }}
   if (class(childs.df)!="NULL") {
     self$beetles=rbind(self$beetles,childs.df)
   }
