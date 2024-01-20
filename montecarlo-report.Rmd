@@ -62,7 +62,8 @@ knitr::write_bib(c(.packages(), packages), "packages.bib")
 
 # Data and Methods
 
-All analyses were performed using R Statistical Software (`r version$version.string`; R Core Team 2021). 
+All analyses were performed using R Statistical Software (`r version$version.string`; R Core Team 2023). Simulation of the beetle environment was done using the plotrix package (`r packageVersion("plotrix")`). 
+`
 
 # Statistical Analysis
 
