@@ -42,7 +42,7 @@ if (any(installed_packages == FALSE)) {
 # Packages loading
 invisible(lapply(packages, library, character.only = TRUE))
 
-source("beesim-test.R")
+source("beesim.R")
 
 #Create citations for packages used
 knitr::write_bib(c(.packages(), packages), "packages.bib")
@@ -71,23 +71,24 @@ All analyses were performed using R Statistical Software (`r version$version.str
 
 Example run
 
-```{r fig=TRUE,fig.width=16,fig.height=9, fig.cap="Beetle Simulations"}
+```{r fig=TRUE,fig.width=16,fig.height=10, fig.cap="Beetle Simulations"}
 set.seed(123)
 par(mfrow=c(2,3),mai=c(0.2,0.2,0.7,0.1))
+favored = "more" # "more or else
 BeeSim$new(20)   # create 20 agents
 BeeSim$drawBeetles()
-BeeSim$iter()
-for (i in 1:5) { BeeSim$iter() }
+BeeSim$iter(favored = favored)
+for (i in 1:5) { BeeSim$iter(favored = favored) }
 BeeSim$drawBeetles()
-for (i in 1:10) { BeeSim$iter() ; BeeSim$mating()}
+for (i in 1:10) { BeeSim$iter(favored = favored) ; BeeSim$mating(favored = favored)}
 
 BeeSim$drawBeetles()
-for (i in 1:35) { BeeSim$iter(debug=FALSE) ; BeeSim$mating(debug=FALSE)}
+for (i in 1:35) { BeeSim$iter(debug=FALSE,favored = favored) ; BeeSim$mating(debug=FALSE,favored = favored)}
 BeeSim$drawBeetles()
-for (i in 1:35) { BeeSim$iter(debug=FALSE) ; BeeSim$mating(debug=FALSE)}
+for (i in 1:35) { BeeSim$iter(debug=FALSE,favored = favored) ; BeeSim$mating(debug=FALSE,favored = favored)}
 BeeSim$drawBeetles()
 BeeSim$plotMonitor()
-legend(x="left",legend=c("Food","Beetles", "Beetle points average*100"), col = c("grey","blue","red"),lty=1, cex=1.2)
+legend(x="topright",legend=c("Food","Beetles", "Beetle points average*50"), col = c("darkgrey","blue","red"),lty=1, cex=0.8)
 ```
 ```{r}
 

@@ -41,7 +41,7 @@ BeeSim = new.env()
 #' 
 #' - _n_ - number of beetles
 #' 
-BeeSim$new <- function (n) {
+BeeSim$new <- function (n) { 
   self=BeeSim
   ## the function which should be used first (constructor)
   ## create n beetles, around 50% males (M) and females (F)
@@ -62,7 +62,7 @@ BeeSim$new <- function (n) {
   self$food=data.frame(x=c(rnorm(10,mean=12,sd=5),rnorm(20,mean=42,sd=5),runif(20,0,50)),
                        y=c(rnorm(10,mean=12,sd=5),rnorm(20,mean=42,sd=5),runif(20,0,50)),
                        age=rep(0,50))
-  self$monitor=data.frame(iter=0,beetles=nrow(self$beetles),food=nrow(self$food), points=mean(self$beetles$points)*100) #duygu
+  self$monitor=data.frame(iter=0,beetles=nrow(self$beetles),food=nrow(self$food), points=mean(self$beetles$points)*50)
 }
 ### Draw an individual beetle of the beetles data frame 
 ### Private Function
@@ -157,7 +157,7 @@ BeeSim$drawBeetles <- function () {
     self$.drawBeetle(i)
   }
   idx=nrow(self$monitor)
-  title(sprintf("iter: %i beetles: %i food items: %i",self$monitor$iter[idx],self$monitor$beetles[idx],self$monitor$food[idx],self$monitor$points[idx])) #duygu
+  title(sprintf("iter: %i beetles: %i food items: %i",self$monitor$iter[idx],self$monitor$beetles[idx],self$monitor$food[idx],self$monitor$points[idx])) 
 }
 
 #' ## BeeSim$iter() - perform an iteration
@@ -173,7 +173,7 @@ BeeSim$drawBeetles <- function () {
 #' 
 
 
-BeeSim$iter <- function (sd=1,sight=2,debug=TRUE) {
+BeeSim$iter <- function (sd=1,sight=2,debug=TRUE,favored = "more") { 
   self=BeeSim
   
   ## * move randomly every beetle within the grid
@@ -210,8 +210,14 @@ BeeSim$iter <- function (sd=1,sight=2,debug=TRUE) {
   for (i in 1:n) {
     ## food distances
     f=D[i,(n+1):ncol(D)]
-    sight = self$beetles$points[i]/2 #duygu
-    if (any(f<sight)) { #duygu
+    
+    if (tolower(favored) == tolower("more")){ 
+      sight = self$beetles$points[i] + self$beetles$points[i]/2 
+    } else {
+      sight = self$beetles$points[i] + (11 - self$beetles$points[i]) 
+      
+    }
+    if (any(f<sight)) { 
       ## update energy=energy+2
       idx=sample(which(f<sight),1)
       #print(paste(i,"is eating",idx))
@@ -227,26 +233,41 @@ BeeSim$iter <- function (sd=1,sight=2,debug=TRUE) {
   self$beetles$age=self$beetles$age+1
   
   
-  # more points cost however more energy per iteration
-  # below some example settings:
-  # with 4 points energy loss in one iteration will be always 1
-  # with 5 points energy loss in one iteration will be in 10% of the cases 2
-  # with 6 points energy loss in one iteration will be in 20% of the cases 2
-  # with 7 points energy loss in one iteration will be in 30% of the cases 2
-  
-  ##   - update energy for all beetles: energy = energy - 1 or 2 with probabilities 0.1,0.2 and 0.3 depending on points
-  idx=which(self$beetles$points==4)
-  self$beetles$energy[idx] = self$beetles$energy[idx]-1
-  
-  idx=which(self$beetles$points==5)
-  self$beetles$energy[idx] = self$beetles$energy[idx]-c(1,2)[rbinom(1,1,p=c(0.1,0.9))+1]
-
-  idx=which(self$beetles$points==6)
-  self$beetles$energy[idx] = self$beetles$energy[idx]-c(1,2)[rbinom(1,1,p=c(0.2,0.8))+1]
-
-  idx=which(self$beetles$points==7)
-  self$beetles$energy[idx] = self$beetles$energy[idx]-c(1,2)[rbinom(1,1,p=c(0.3,0.7))+1]
-
+  if (tolower(favored) == tolower("more")){
+    # more points cost however more energy per iteration
+    # below some example settings:
+    # with 4 points energy loss in one iteration will be always 1
+    # with 5 points energy loss in one iteration will be in 10% of the cases 2
+    # with 6 points energy loss in one iteration will be in 20% of the cases 2
+    # with 7 points energy loss in one iteration will be in 30% of the cases 2
+    
+    ##   - update energy for all beetles: energy = energy - 1 or 2 with probabilities 0.1,0.2 and 0.3 depending on points
+    
+    idx=which(self$beetles$points==7)
+    self$beetles$energy[idx] = self$beetles$energy[idx]-1
+    
+    idx=which(self$beetles$points==6)
+    self$beetles$energy[idx] = self$beetles$energy[idx]-c(1,2)[rbinom(1,1,p=c(0.1,0.9))+1]
+    
+    idx=which(self$beetles$points==5)
+    self$beetles$energy[idx] = self$beetles$energy[idx]-c(1,2)[rbinom(1,1,p=c(0.2,0.8))+1]
+    
+    idx=which(self$beetles$points==4)
+    self$beetles$energy[idx] = self$beetles$energy[idx]-c(1,2)[rbinom(1,1,p=c(0.3,0.7))+1]
+  }
+  else {
+    idx=which(self$beetles$points==4)
+    self$beetles$energy[idx] = self$beetles$energy[idx]-1
+    
+    idx=which(self$beetles$points==5)
+    self$beetles$energy[idx] = self$beetles$energy[idx]-c(1,2)[rbinom(1,1,p=c(0.1,0.9))+1]
+    
+    idx=which(self$beetles$points==6)
+    self$beetles$energy[idx] = self$beetles$energy[idx]-c(1,2)[rbinom(1,1,p=c(0.2,0.8))+1]
+    
+    idx=which(self$beetles$points==7)
+    self$beetles$energy[idx] = self$beetles$energy[idx]-c(1,2)[rbinom(1,1,p=c(0.3,0.7))+1]
+  }
   
   
   ##   - check energy if < 0 remove beetle from data frame
@@ -303,7 +324,7 @@ BeeSim$iter <- function (sd=1,sight=2,debug=TRUE) {
     self$food=self$food[idx,]
   }
   idx=nrow(self$monitor)
-  self$monitor=rbind(self$monitor,data.frame(iter=self$monitor$iter[idx]+1,beetles=nrow(self$beetles),food=nrow(self$food), points=mean(self$beetles$points)*100)) #duygu
+  self$monitor=rbind(self$monitor,data.frame(iter=self$monitor$iter[idx]+1,beetles=nrow(self$beetles),food=nrow(self$food), points=mean(self$beetles$points)*50))
   ### Mating: Might be placed in own function
   ### let girls look for boys if energy > 10 and age > 10
   ### check if male is in sight (D<5 for instance)
@@ -329,21 +350,34 @@ BeeSim$iter <- function (sd=1,sight=2,debug=TRUE) {
 #' - _childs_     - number of childs, default: 5
 #' - _debug_ - should debug messages be displayed, default: TRUE
 
-BeeSim$mating <- function (sight=4,min.female=10,min.male=5,min.age=10,childs=5,debug=TRUE) {
+BeeSim$mating <- function (sight=4,min.female=10,min.male=5,min.age=10,childs=5,debug=TRUE, favored = "more") {
   self=BeeSim
   candidate.female=which(self$beetles$age>min.age & self$beetles$sex=="F" & self$beetles$energy>min.female)
   childs.df=NULL
   if (length(candidate.female)>0) {
     D=as.matrix(dist(rbind(BeeSim$beetles[,1:2])))
     for (f in candidate.female) {
-      sight = self$beetles$points[f] - 1 # the sight variable should be depending on the number of points
+      if (tolower(favored) == tolower("more")){ 
+        sight = self$beetles$points[f] - 1 # the sight variable should be depending on the number of points
+      }
+      else
+      {
+        sight = 7 - self$beetles$points[f]/2
+      }
       if (any(D[f,]<sight)) {
         for (b in which(D[f,]<sight)) {
           if (b == f) {
             next
           }
           if (self$beetles$sex[b] == "M" &  self$beetles$energy[b]>min.male & self$beetles$age[b]>min.age) {
-	    if (sample(c(TRUE, FALSE), 1, prob = c(self$beetles$points[b]/7, 1 - (self$beetles$points[b]/7)))) {
+            
+            if (tolower(favored) == tolower("more")){ 
+              beetle_mating_prob = c(self$beetles$points[b]/7, 1 - (self$beetles$points[b]/7))
+            }
+            else {
+              beetle_mating_prob = c(1 - self$beetles$points[b]/7, (self$beetles$points[b]/7))
+            }
+            if (sample(c(TRUE, FALSE), 1, prob = beetle_mating_prob)) {
               if (debug) {
                 print(paste(f,"mates prosperous",b)) 
               }
@@ -362,11 +396,11 @@ BeeSim$mating <- function (sight=4,min.female=10,min.male=5,min.age=10,childs=5,
               self$beetles[f,'energy']=self$beetles[f,'energy']-(childs-1)
               self$beetles[b,'energy']=self$beetles[b,'energy']-1
               break
+            }
           }
         }
       }
-    }
-  }}
+    }}
   if (class(childs.df)!="NULL") {
     self$beetles=rbind(self$beetles,childs.df)
   }
@@ -387,7 +421,7 @@ BeeSim$plotMonitor <- function () {
   plot(self$monitor$food ~ self$monitor$iter,col="grey60",type="l",ylim=c(0,max(self$monitor$food)),ylab="Counts",xlab="Iterations",main="Model Monitoring",lwd=3)
   grid()
   points(self$monitor$beetles ~ self$monitor$iter,col="blue",type="l",lwd=3)
-  points(self$monitor$points ~ self$monitor$iter,col="red",type="l",lwd=3) #duygu
+  points(self$monitor$points ~ self$monitor$iter,col="red",type="l",lwd=3) 
   
 }
 

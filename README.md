@@ -2,20 +2,34 @@
 
 ## Current status:
  __Point size genetics:__
-- the sight variable is points-1 for mating, points/2 for food (we should equalize this probably)
+
+two settings, one which favors fewer points, one which favors more points (with parameter favored = "more" or else)
+
+- sight
+    - for mating, sight = (self$beetles$points[f] - 1) or (7 - points/2) for more or less preferences, respectively
+    - for food, (points + points/2) or (points + 11-points)
+
 - more points cost more enery per iteration
     - with 4 points, energy loss in one iteration will be always 1
     - with 5 points, energy loss in one iteration will be in 10% of the cases 2
     - with 6 points, energy loss in one iteration will be in 20% of the cases 2
     - with 7 points, energy loss in one iteration will be in 30% of the cases 2
-- females favor males with more points probably of chosing a male should be based on the number of points (what's the preference?)
-    - males with 7 points should have a higher chance of being selected, but 4 point males should be not without chance
-- monitor the average point count as well in the monitor plot
-    - monitor graph has a line for average point count*100 for visibility
+    if more is favored
+    - with 7 points, energy loss in one iteration will be always 1
+    - with 6 points, energy loss in one iteration will be in 10% of the cases 2
+    - with 5 points, energy loss in one iteration will be in 20% of the cases 2
+    - with 4 points, energy loss in one iteration will be in 30% of the cases 2
 
-- not implemented
-    - explore two settings, one which favors fewer points, one which favors more points
-    - both point groups should at least survive 25 iterations
+- females favor males with more points probably of chosing a male should be based on the number of points 
+    - males with 7 points should have a higher chance of being selected, but 4 point males should be not without chance
+    - points/7 vs 1-points/7 chance of mating, or reverse, depending on whether more or less is favored 
+
+- monitor the average point count as well in the monitor plot
+    - monitor graph has a line for average point count*50 for visibility
+
+
+
+
 
 
 ## Getting started
