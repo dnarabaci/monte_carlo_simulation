@@ -12,7 +12,7 @@ author:
 - name: Stevie Davies
   affiliation: Department of Bioinformatics, University of Potsdam, Germany
 
-bibliography: [packages.bib]
+bibliography: [packages.bib, other-refs.bib]
 nocite: '@*'
 
 output:
@@ -31,7 +31,7 @@ knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message = FALSE, tidy = TRUE)
 
 ```{r, echo=FALSE}
 # Packages
-packages <- c("knitr")
+packages <- c("knitr", "plotrix", "bookdown")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
@@ -61,36 +61,47 @@ knitr::write_bib(c(.packages(), packages), "packages.bib")
 # Introduction
 
  
-Monte Carlo simulation can be described as a mathematical tool that creates stochastic scenarios that are dependent on one or more unpredictable random variables (Paixão & Silva, 2019). Simulations and Monte Carlo simulations overall, are often used to solve problems that are deterministic in their nature (McDoniel & Monteleone, 2001). A Monte Carlo simulation is repeated various times, ranging from thousands to millions in the number of simulations runs.The Monte Carlo Method was invented by John von Neumann and Stanislaw Ulam during World War II to improve decision making under uncertain conditions. It was named after a well-known casino town, called Monaco, since the element of chance is core to the modeling approach, similar to a game of roulette.Monte Carlo Simulations, used in various real-life scenarios like artificial intelligence and stock prices, offer dynamic analysis and adaptability, surpassing fixed-input predictive models.There exist  lots of Monte Carlo simulations which have been carried out up to date. Some of which are :
+Monte Carlo simulation can be described as a mathematical tool that creates stochastic scenarios that are dependent on one or more unpredictable random variables (Paixão & Silva, 2019). Simulations and Monte Carlo simulations overall, are often used to solve problems that are deterministic in their nature (McDoniel & Monteleone, 2001). A Monte Carlo simulation is repeated various times, ranging from thousands to millions in the number of simulations runs.
+
+The Monte Carlo Method was invented by John von Neumann and Stanislaw Ulam during World War II to improve decision making under uncertain conditions. It was named after a well-known casino town, called Monaco, since the element of chance is core to the modeling approach, similar to a game of roulette. Monte Carlo Simulations, used in various real-life scenarios like artificial intelligence and stock prices, offer dynamic analysis and adaptability, surpassing fixed-input predictive models.There exist  lots of Monte Carlo simulations which have been carried out up to date. Some of which are :
+
 - Monte Carlo simulation of an ecosystem : a matching between two levels of observation.This simulation presents a Monte Carlo computer simulation designed to depict the evolution of an ecosystem under specified environmental energy conditions. Preliminary results for a simple scenario reveal a compelling correlation between the detailed random behaviours of individual entities and a global deterministic model. This correlation has the potential to offer new insights into understanding and managing biomass production processes, serving as a valuable tool for evaluating classical treatments' reliability. 
+
 - Monte Carlo simulation as a Marketing tool (Esa-Matti Korpioja, 2022):  The simulations involve generating random variables using the inverse transform method, providing a simplified explanation of the process. 
 
 
 # Data and Methods
-Data & Methods
-The simulation begins by initializing two essential components: the `beetles` and `food` data frames. The `beetles` data frame is populated with `n` beetles, approximately 50% of which are males (M) and females (F). The color of the beetles is predominantly red, with approximately 20% of the beetles being orange. The initial coordinates (x, y) of the beetles are generated randomly within the range [0, 50]. Each beetle is assigned attributes including its sex, color, a random number of points between 4 and 7, age, and an initial energy level set to 10.
+
+  The simulation begins by initializing two essential components: the `beetles` and `food` data frames. The `beetles` data frame is populated with `n` beetles, approximately 50% of which are males (M) and females (F). The color of the beetles is predominantly red, with approximately 20% of the beetles being orange. The initial coordinates (x, y) of the beetles are generated randomly within the range [0, 50]. Each beetle is assigned attributes including its sex, color, a random number of points between 4 and 7, age, and an initial energy level set to 10.
+
 The `food` data frame represents the landscape's food sources. It consists of randomly generated (x, y) coordinates, with a distribution that includes normal and uniform components.
 The `drawBeetle` function is defined to visually represent an individual beetle. The function utilizes ellipses to depict the body of the beetle and additional points for aesthetic details. The parameters such as position (x, y), sex, color, and the number of points influence the appearance of the beetle.
+
 The `drawLandscape` function visualizes the landscape where the beetles reside. It includes a central circular region representing a high amount of food. Several trees are drawn across the landscape, indicated by polygons, to create diverse regions within the environment.
 The `drawBeetles` function integrates the individual beetle drawings into the landscape. It calls the `drawBeetle` function for each beetle in the `beetles` data frame, creating a comprehensive representation of the beetle population and their environment.
+
 This simulation is implemented in R Statistical Software using the plotrix package. The environment undergoes iterations, where beetles move, interact, and consume energy. Mating preferences and energy consumption are determined by individual characteristics and the defined settings. The resulting visualizations provide insights into the distribution of beetles and food sources in the simulated landscape.
 In this simulation, agents take the form of beetles, with each beetle possessing distinct characteristics. These characteristics include the number of points on their bodies, influencing their attractiveness during mating, and their sight range, affecting their ability to locate food and potential mates. 
+
 The simulation considers two settings for the beetle agents' point size genetics: one favoring fewer points and another favoring more points. The parameter "favored" specifies this preference, with options "more" or else. The number of points on a beetle plays a crucial role in determining its attractiveness during mating.
+
 The sight range of each beetle is determined by specific formulas based on their point size genetics. For more points preference, the formula is sight = points[f] - 1. For fewer points preference, the formula is sight = 7 - points/2.
 Mating preferences in the simulation are influenced by the number of points on beetles. For females, the probability of choosing a male is directly related to the number of points. In contrast, the chance of mating for males is determined by the ratio of their points to the total possible points (7 points). Males with more points have a higher probability of being selected.
 The landscape in the simulation incorporates food sources that provide energy to the beetles. The energy loss for a beetle in each iteration is determined by the number of points on the beetle and the mating preference setting. The energy loss formula varies based on the preference setting: for more points preference, the energy loss is a constant 1 per iteration, while for fewer points preference, energy loss increases with the number of points.
+
 The simulation is implemented in R Statistical Software using the BeeSim package. It involves several essential steps:
-Initialization: A specified number of agents (beetles) are created in the environment during this step. The initial agent counts can be adjusted as a parameter setting.
-Iteration: The simulation progresses through multiple iterations, simulating the passage of time. During each iteration, agents (beetles) move, interact, and consume energy.
-Mating: Mating preferences, based on point size genetics, are implemented during this step. The simulation calculates the chances of successful mating for each beetle.
-Energy Consumption: The energy loss for each beetle in each iteration is determined based on their individual characteristics and mating preferences.
-The landscape is visualized using the plotrix package in R, providing a graphical representation of the distribution of beetles and food sources in the environment.
-All analyses were performed using R Statistical Software (`r version$version.string`; R Core Team 2023). Simulation of the beetle environment was done using the plotrix package (`r packageVersion("plotrix")`). 
+
+- Initialization: A specified number of agents (beetles) are created in the environment during this step. The initial agent counts can be adjusted as a parameter setting.
+- Iteration: The simulation progresses through multiple iterations, simulating the passage of time. During each iteration, agents (beetles) move, interact, and consume energy.
+- Mating: Mating preferences, based on point size genetics, are implemented during this step. The simulation calculates the chances of successful mating for each beetle.
+- Energy Consumption: The energy loss for each beetle in each iteration is determined based on their individual characteristics and mating preferences.
+
+Simulation of the beetle environment was done using the plotrix package (`r packageVersion("plotrix")`) in R, providing a graphical representation of the distribution of beetles and food sources in the environment. All analyses were performed using R Statistical Software (`r version$version.string`; R Core Team 2023).  
 
 
+# Results and Discussion
 
-
-# Results
+In this paper, a community of beetles were simulated using Monte Carlo methods, and the population of beetles were observed according to their point numbers. Several simulations with varying initial agent counts were run under probabilities that favored higher and lower point numbers. The results were plotted alongside average point count of the beetles.
 
 
 ```{r fig=TRUE,fig.width=16,fig.height=10, fig.cap="Beetle Simulations"}
@@ -143,20 +154,36 @@ simulate_beetle_environment <- function(initial_agents, favored = "less", iterat
   )
 }
 
+```
+
+```{r fig=TRUE,fig.width=16,fig.height=10, fig.cap="Beetle Simulations, starting agents: 10, favored: less"}
 # Example runs with different initial agent counts for "less" favored
 simulate_beetle_environment(initial_agents = 10, favored = "less")
+```
+```{r fig=TRUE,fig.width=16,fig.height=10, fig.cap="Beetle Simulations, starting agents: 20, favored: less"}
 simulate_beetle_environment(initial_agents = 20, favored = "less")
+```
+```{r fig=TRUE,fig.width=16,fig.height=10, fig.cap="Beetle Simulations, starting agents: 30, favored: less"}
 simulate_beetle_environment(initial_agents = 30, favored = "less")
+```
+
+
+```{r fig=TRUE,fig.width=16,fig.height=10, fig.cap="Beetle Simulations, starting agents: 10, favored: more"}
 
 # Example runs with different initial agent counts for "more" favored
 simulate_beetle_environment(initial_agents = 10, favored = "more")
+```
+
+```{r fig=TRUE,fig.width=16,fig.height=10, fig.cap="Beetle Simulations, starting agents: 10, favored: more"}
 simulate_beetle_environment(initial_agents = 20, favored = "more")
+```
+
+```{r fig=TRUE,fig.width=16,fig.height=10, fig.cap="Beetle Simulations, starting agents: 10, favored: more"}
 simulate_beetle_environment(initial_agents = 30, favored = "more")
-
 ```
-```{r}
 
-```
+
+
 
 The simulations reveal fascinating insights into how food availability shapes the population of simulated beetles. Fluctuations in food directly influence the overall beetle population, leading to significant changes over time. Individual beetle characteristics, such as their assigned points, play a crucial role in determining mating success and overall survival.
 
@@ -166,8 +193,18 @@ The simulations illustrate a dynamic interplay among food availability, mating s
 
 Futhermore, the simulations indicate that with a higher initial agent number, the rate of food depletion accelerates, accompanied by a more pronounced increase in beetle population and a higher average of beetle points, further influencing the intricate dynamics of the simulated environment.
 
-
 # Discussion
+
+
+## Advantages and limitations of the Monte Carlo simulation
+
+The Monte Carlo simulation is a versatile tool that possesses many advantages across diverse applications. The fact that this simulation is very flexible makes it adaptable to a broad spectrum of problem domains. One key aspect is the ability to assess and quantify risks and the technique excels in modelling complex systems, capturing inter-dependencies and relationships among variables that might challenge traditional analytic methods. It also possesses a sensitivity analysis component which allows its user to identify the most influential factors, guiding resource allocation. Its proficiency in exploring realistic scenarios while integrating  statistical methods, and ability to handle non-linearity contributes to its status as a go-to method for decision analysis and risk management. However, this simulation also has some limitations. The simulation relies on one  fundamental assumption which is  the independence of random variables, which may lead to inaccuracies when correlations exist between variables.
+
+Additionally, Monte Carlo simulations may not be well-suited for systems with deterministic inputs, and their effectiveness becomes lower in cases of discontinuities, non-linearities, or interdependent events. Caution is advised when it comes to interpretation challenges and the difficulty of handling rare events with low probabilities.
+
+## Simulation Insights
+
+The simulations provide interesting insights into a simulated world of beetles. The main discovery is that the number of beetles changes based on how much food is available. Each beetle has a score called "points," and having more points is crucial for finding mates and surviving. Some beetles are more popular because they have more points, while others are less popular because they have fewer points. This preference affects how the whole beetle group looks. The simulation shows that food, finding mates, and the number of points are all connected. These factors make the beetle population change over time. The simulation shows that things like where the beetles start, the environment they're in, and each beetle's points all play a part in how the beetle group evolves. Additionally, the simulations tell us that when there are more beetles at the beginning, they use up their food faster. This makes the beetle population grow even more, and the average number of points for all the beetles goes up. This means the starting conditions and how many beetles there are can make a big difference in how this simulated beetle world works.
 
 
 # Bibliography
