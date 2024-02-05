@@ -42,7 +42,7 @@ if (any(installed_packages == FALSE)) {
 # Packages loading
 invisible(lapply(packages, library, character.only = TRUE))
 
-source("beesim.R")
+source("beesim.R") # or arabaci2_beesim.R
 
 #Create citations for packages used
 knitr::write_bib(c(.packages(), packages), "packages.bib")
@@ -51,6 +51,8 @@ knitr::write_bib(c(.packages(), packages), "packages.bib")
 -------------------------------------------------------------
 
 **Abstract**
+
+This study employs Monte Carlo simulations to explore the dynamics of a beetle population in a virtual ecosystem, focusing on the impact of point size genetics on mating success and survival. Several different variations of an environment simulations were conducted with different initial agent numbers and probabilities favoring more points and less points.
 
 -------------------------------------------------------------
 
@@ -68,6 +70,8 @@ The Monte Carlo Method was invented by John von Neumann and Stanislaw Ulam durin
 - Monte Carlo simulation of an ecosystem : a matching between two levels of observation.This simulation presents a Monte Carlo computer simulation designed to depict the evolution of an ecosystem under specified environmental energy conditions. Preliminary results for a simple scenario reveal a compelling correlation between the detailed random behaviours of individual entities and a global deterministic model. This correlation has the potential to offer new insights into understanding and managing biomass production processes, serving as a valuable tool for evaluating classical treatments' reliability. 
 
 - Monte Carlo simulation as a Marketing tool (Esa-Matti Korpioja, 2022):  The simulations involve generating random variables using the inverse transform method, providing a simplified explanation of the process. 
+
+As hypothesis , we assume  that an artificial society of lady beetles, governed by point size genetics, can exhibit complex social behaviors and survival strategies akin to natural ecosystems. By manipulating genetic preferences for point size, we aim to demonstrate how variations in genetic traits influence mating success, resource consumption, and population dynamics, offering insights into the evolutionary pressures and mating selection mechanisms in artificial populations.
 
 
 # Data and Methods
