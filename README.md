@@ -1,6 +1,6 @@
 # SBI Montecarlo
 
-Abstract
+## Abstract
 
 This study employs Monte Carlo simulations to explore the dynamics of a beetle population in a virtual ecosystem, focusing on the impact of point size genetics on mating success and survival. Several different variations of an environment simulations were conducted with different initial agent numbers and probabilities favoring more points and less points.
 
