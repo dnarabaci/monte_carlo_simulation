@@ -38,15 +38,15 @@ two settings, one which favors fewer points, one which favors more points (with 
 
 
 ## Authors
-- name: Ayrin Sophie Piephoh
+- Ayrin Sophie Piephoh
   affiliation: Department of Bioinformatics, University of Potsdam, Germany
-- name: Duygu Nur Arabaci
+- Duygu Nur Arabaci
   affiliation: Department of Bioinformatics, University of Potsdam, Germany
-- name: Fatoumata Sow
+- Fatoumata Sow
   affiliation: Department of Bioinformatics, University of Potsdam, Germany
-- name: Mekontso Tepeu Florentin Jose
+- Mekontso Tepeu Florentin Jose
   affiliation: Department of Bioinformatics, University of Potsdam, Germany
-- name: Stevie Davies
+- Stevie Davies
   affiliation: Department of Bioinformatics, University of Potsdam, Germany
 
 
